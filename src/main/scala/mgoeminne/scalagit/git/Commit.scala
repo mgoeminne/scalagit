@@ -1,5 +1,7 @@
 package mgoeminne.scalagit.git
 
+import org.joda.time.DateTime
+
 import scala.sys.process.Process
 
 case class Commit(date: DateTime, id: String, repository: Git, tree: Tree, author: Option[String]) extends Ordered[Commit]

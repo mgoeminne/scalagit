@@ -2,6 +2,9 @@ package mgoeminne.scalagit.git
 
 import java.io.File
 
+import org.apache.commons.io.FileUtils
+import org.joda.time.format.DateTimeFormat
+
 import scala.sys.process.{Process, _}
 
 case class Git(directory: File)
