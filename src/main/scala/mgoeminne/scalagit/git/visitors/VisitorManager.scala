@@ -1,5 +1,7 @@
 package mgoeminne.scalagit.git.visitors
 
+import mgoeminne.scalagit.git.{Commit, Git}
+
 import scala.collection.parallel.ParSeq
 import scala.collection.parallel.immutable.ParMap
 

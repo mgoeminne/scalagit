@@ -1,5 +1,7 @@
 package mgoeminne.scalagit.git.visitors
 
+import mgoeminne.scalagit.git.{Commit, Git}
+
 /**
  * A visitor responsible of extracting information from the elements of a Git repository
  * @tparam B type of elements for which a value is computed

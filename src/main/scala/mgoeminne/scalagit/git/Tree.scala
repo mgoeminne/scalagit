@@ -21,6 +21,6 @@ case class Tree(id: String, repository: Git)
    */
   def blobs: Seq[Blob] =
   {
-    Process(Seq("git", "ls-tree", "-r", id), repository.directory).lines.map(line => Blob(line.split("\\s")(2), repository))
+    Process(Seq("git", "ls-tree", "-r", id), repository.directory).lineStream.map(line => Blob(line.split("\\s")(2), repository))
   }
 }
