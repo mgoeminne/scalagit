@@ -1,8 +1,8 @@
-package mgoeminne.scalagit.git.visitors
+package mgoeminne.scalagit.visitors
 
 import java.io.File
 
-import mgoeminne.scalagit.git.Git
+import mgoeminne.scalagit.Git
 
 /**
  * Lists the repositories that contains one of the given Java annotation

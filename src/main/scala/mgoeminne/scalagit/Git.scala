@@ -1,4 +1,4 @@
-package mgoeminne.scalagit.git
+package mgoeminne.scalagit
 
 import java.io.File
 
