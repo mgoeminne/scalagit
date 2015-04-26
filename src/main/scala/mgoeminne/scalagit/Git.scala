@@ -9,21 +9,12 @@ import scala.sys.process.{Process, _}
 
 case class Git(directory: File)
 {
-   private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z")
-
    def commits: Set[Commit] =
    {
-      Process(Seq("git", "log", "--all", "--format=%H,%ci,%T,%ae"), directory).lineStream.map(line =>
-      {
-         val split = line.split(',')
-         val id = split(0)
-         val date = formatter.parseDateTime(split(1))
-         val tree = Tree(split(2), this)
-         val author = if (split.size >= 4) Some(split(3))
-                      else None
-
-         Commit(date, id, this, tree, author)
-      }).toSet
+      Process(Seq("git", "log", "--all", "--format=%H,%ci,%T,%ae"), directory)
+         .lineStream
+         .map(Git.processCommitLine(_, this))
+         .toSet
    }
 
    /**
@@ -72,6 +63,20 @@ case class Git(directory: File)
 
 object Git
 {
+   private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z")
+
+   def processCommitLine(line: String, repository: Git): Commit =
+   {
+      val split = line.split(',')
+      val id = split(0)
+      val date = formatter.parseDateTime(split(1))
+      val tree = Tree(split(2), repository)
+      val author = if (split.size >= 4) Some(split(3))
+      else None
+
+      Commit(date, id, repository, tree, author)
+   }
+
    def clone(source: String, dest: File): Int =
    {
       FileUtils.deleteDirectory(dest)
