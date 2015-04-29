@@ -1,7 +1,6 @@
 package mgoeminne.scalagit.visitors
 
 import mgoeminne.scalagit.{Commit, Git, Blob}
-import mgoeminne.scalagit.git.Blob
 
 /**
  * A visitor based on blobs

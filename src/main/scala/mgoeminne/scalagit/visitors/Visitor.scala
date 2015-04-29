@@ -1,7 +1,6 @@
 package mgoeminne.scalagit.visitors
 
 import mgoeminne.scalagit.{Commit, Git}
-import mgoeminne.scalagit.git.Commit
 
 /**
  * A visitor responsible of extracting information from the elements of a Git repository
