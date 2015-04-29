@@ -2,19 +2,9 @@ package mgoeminne.scalagit
 
 import scala.sys.process.Process
 
-case class Blob(id: String, repository: Git)
+class Blob(id: String, repository: Git) extends GitObject(id, repository)
 {
 
-  override def hashCode = id.hashCode
-
-  override def equals(b: Any): Boolean =
-  {
-     b match
-     {
-        case other: Blob => this.id.equals(other.id)
-        case _ => false
-     }
-  }
 
   /**
    * @return A list of all files that have been associated to the blob.
@@ -29,7 +19,6 @@ case class Blob(id: String, repository: Git)
   }
 
   /**
-   *
    * @return all the commits in which this blob can be found
    */
   def commits: Set[Commit] = repository.commits.filter(_.blobs.contains(this)).toSet

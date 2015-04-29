@@ -31,7 +31,7 @@ case class Git(directory: File)
     * @param file The file to found. Ex: foo/bar/file.txt
     * @return The blobs that represent the versions of the given file.
     */
-   def findBlobs(file: String): Set[Blob] = allFiles.filter(element => element._1 == file).map(_._2).toSet
+   def findBlobs(file: String): Seq[Blob] = allFiles.filter(element => element._1 == file).map(_._2)
 
    /**
     *
@@ -46,7 +46,7 @@ case class Git(directory: File)
       p3.lineStream.map(l =>
       {
          val array = l.split(' ')
-         (array.drop(2).mkString(" "), Blob(array(0), this))
+         (array.drop(2).mkString(" "), new Blob(array(0), this))
       })
    }
 

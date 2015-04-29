@@ -13,7 +13,7 @@ case class Commit(date: DateTime, id: String, repository: Git, tree: TreeNode, a
   {
     Process(Seq("git", "ls-tree", "-r", tree.id), repository.directory).lineStream.map(line => {
       val split = line.split("\\s")
-      (split(3) , Blob(split(2), repository))
+      (split(3) , new Blob(split(2), repository))
     }).toSeq
   }
 

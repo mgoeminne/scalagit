@@ -29,7 +29,7 @@ case class TreeNode(id: String, repository: Git)
             val access = new NodeMode(splitted(0))
             val name = splitted(3)
             val content: Either[Blob, TreeNode] = splitted(1) match {
-               case "blob" => Left(Blob(splitted(2), repository))
+               case "blob" => Left(new Blob(splitted(2), repository))
                case "tree" => Right(TreeNode(splitted(2), repository))
             }
 
@@ -44,6 +44,6 @@ case class TreeNode(id: String, repository: Git)
   {
     Process(Seq("git", "ls-tree", "-r", id), repository.directory)
        .lineStream
-       .map(line => Blob(line.split("\\s")(2), repository))
+       .map(line => new Blob(line.split("\\s")(2), repository))
   }
 }
