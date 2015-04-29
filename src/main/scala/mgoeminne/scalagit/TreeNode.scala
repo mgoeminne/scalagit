@@ -3,7 +3,7 @@ package mgoeminne.scalagit
 import scala.sys.process.Process
 
 
-case class Tree(id: String, repository: Git)
+case class TreeNode(id: String, repository: Git)
 {
   override def hashCode = id.hashCode
 
@@ -11,7 +11,7 @@ case class Tree(id: String, repository: Git)
   {
     b match
     {
-      case other: Tree => this.id == other.id
+      case other: TreeNode => this.id == other.id
       case _ => false
     }
   }

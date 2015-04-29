@@ -70,7 +70,7 @@ object Git
       val split = line.split(',')
       val id = split(0)
       val date = formatter.parseDateTime(split(1))
-      val tree = Tree(split(2), repository)
+      val tree = TreeNode(split(2), repository)
       val author = if (split.size >= 4) Some(split(3))
       else None
 
