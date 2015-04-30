@@ -21,9 +21,9 @@ case class Git(directory: File)
     *
     * @return All the blobs involved in the Git repository. If a blob is involved many times, it will be retrieved a single time.
     */
-   def blobs: Set[Blob] =
+   def blobs: Seq[Blob] =
    {
-      allFiles.map(_._2).toSet
+      allFiles.map(_._2)
    }
 
    /**
@@ -31,7 +31,18 @@ case class Git(directory: File)
     * @param file The file to found. Ex: foo/bar/file.txt
     * @return The blobs that represent the versions of the given file.
     */
-   def findBlobs(file: String): Seq[Blob] = allFiles.filter(element => element._1 == file).map(_._2)
+   def findBlobs(file: String): Seq[Blob] =
+   {
+      val p1 = Process(Seq("git", "rev-list", "--objects", file), directory)
+      val p2 = p1 #| Process(Seq("git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(rest)"), directory)
+      val p3 = p2 #| Process(Seq("grep", "^[^ ]* blob"))
+
+      p3.lineStream.map(l =>
+      {
+         val array = l.split(' ')
+         new Blob(array(0), this)
+      })
+   }
 
    /**
     *
