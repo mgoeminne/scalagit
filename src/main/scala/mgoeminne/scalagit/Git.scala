@@ -2,6 +2,7 @@ package mgoeminne.scalagit
 
 import java.io.File
 
+import mgoeminne.scalagit.tag.{AnnotatedTag, LightweightTag, Tag}
 import org.apache.commons.io.FileUtils
 import org.joda.time.format.DateTimeFormat
 
@@ -70,11 +71,48 @@ case class Git(directory: File)
     * @return all local branches
     */
    def localBranches: Seq[Branch] = Process(Seq("git", "branch")).lineStream.map(line => Branch(line replace('*',' ') trim , this))
+
+   /**
+    * @return the names of all tags in the repository, with their associated commits
+    */
+   def tags: Seq[Tag] = {
+
+      def lineValue(line: String) = line.split(' ').drop(1).mkString(" ").trim()
+
+      Process(Seq("git", "tag"), directory).lineStream.map(name => {
+         var lines = Process(Seq("git", "show", name, "-s", "--date=iso"), directory).lineStream
+
+         if(lines.head startsWith "tag") // This is a annotated tag
+         {
+            lines = lines.tail
+            val tagger = lineValue(lines.head)
+            lines = lines.tail
+            val date = Git.formatter.parseDateTime(lineValue(lines.head))
+            lines = lines.tail.tail
+
+            val comment = new StringBuilder()
+            while(! (lines.head.trim isEmpty))
+            {
+               comment.append(lines.head.trim)
+               lines = lines.tail
+            }
+            lines = lines.tail
+
+            val commit = lineValue(lines.head)
+            new AnnotatedTag(name, tagger, date, Commit(commit, this), this)
+
+         }
+         else
+         {
+            new LightweightTag(name, Commit(lineValue(lines.head), this), this)
+         }
+      })
+   }
 }
 
 object Git
 {
-   private val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z")
+   val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z")
 
    def processCommitLine(line: String, repository: Git): Commit =
    {
