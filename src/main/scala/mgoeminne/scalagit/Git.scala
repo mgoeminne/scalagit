@@ -1,14 +1,12 @@
 package mgoeminne.scalagit
 
-import java.io.File
-
 import mgoeminne.scalagit.tag.{AnnotatedTag, LightweightTag, Tag}
 import org.apache.commons.io.FileUtils
 import org.joda.time.format.DateTimeFormat
 
 import scala.sys.process.{Process, _}
 
-case class Git(directory: File)
+case class Git(directory: java.io.File)
 {
    def commits: Set[Commit] =
    {
@@ -22,23 +20,18 @@ case class Git(directory: File)
     *
     * @return All the blobs involved in the Git repository. If a blob is involved many times, it will be retrieved a single time.
     */
-   def blobs: Seq[Blob] =
-   {
-      allFiles.map(_._2)
-   }
+   def blobs: Set[Blob] = allFiles.map(_._2).toSet
 
    /**
-    * For a given file, find all the blobs that represent this file.
-    * @param file The file to found. Ex: foo/bar/file.txt
-    * @return The blobs that represent the versions of the given file.
+    * @return All the blobs involved in the Git repository. If a file is involved many times, it will be retrieved a single time.
     */
-   def findBlobs(file: String): Seq[Blob] = allFiles filter (af => af._1 == file) map(_._2)
+   def files: Set[File] = allFiles.map(_._1).toSet
 
    /**
     *
     * @return All the files that exist in any commit of the repository, along with their associated blob
     */
-   def allFiles: Stream[(String, Blob)] =
+   def allFiles: Stream[(File, Blob)] =
    {
       val p1 = Process(Seq("git", "rev-list", "--objects", "--all"), directory)
       val p2 = p1 #| Process(Seq("git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(rest)"), directory)
@@ -47,7 +40,7 @@ case class Git(directory: File)
       p3.lineStream.map(l =>
       {
          val array = l.split(' ')
-         (array.drop(2).mkString(" "), new Blob(array(0), this))
+         (File(array.drop(2).mkString(" "), this), new Blob(array(0), this))
       })
    }
 
@@ -115,11 +108,11 @@ object Git
       Commit(date, id, repository, tree, author)
    }
 
-   def clone(source: String, dest: File): Int =
+   def clone(source: String, dest: java.io.File): Int =
    {
       FileUtils.deleteDirectory(dest)
       Seq("git", "clone", "--bare", "--quiet", source, dest.getAbsolutePath).!
    }
 
-   def isGitRepository(file: File): Boolean = file.isDirectory && file.getAbsolutePath.endsWith((".git"))
+   def isGitRepository(file: java.io.File): Boolean = file.isDirectory && file.getAbsolutePath.endsWith((".git"))
 }

@@ -40,7 +40,7 @@ trait Visitor[B,T,V]
    * Generates the basic elements for which a value must be computed
    * @return all the basic value for which a value must be computed
    */
-   def generator(git: Git): Set[B]
+   def generator(git: Git): Seq[B]
 
   /**
    * Determines the elements associated to a particular commit.
