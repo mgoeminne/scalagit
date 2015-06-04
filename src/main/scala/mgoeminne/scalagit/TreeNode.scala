@@ -18,7 +18,7 @@ case class TreeNode(id: String, repository: Git)
 
    /**
     *
-    * @return All the children directly included in the node.
+    * @return All the children directly included in the node, as a sequence of (name, access, content)
     */
    def children: Seq[(String, NodeMode, Either[Blob,TreeNode])] =
    {
