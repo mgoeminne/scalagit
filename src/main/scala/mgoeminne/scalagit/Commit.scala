@@ -11,11 +11,11 @@ case class Commit(date: DateTime, id: String, repository: Git, tree: TreeNode, a
   /**
    * @return All files that are 'living' in this commit, aside with their associated blobs
    */
-  def existingFile(): Seq[(String, Blob)] =
+  def existingFile(): Seq[(File, Blob)] =
   {
     Process(Seq("git", "ls-tree", "-r", tree.id), repository.directory).lineStream.map(line => {
       val split = line.split("\\s")
-      (split(3) , new Blob(split(2), repository))
+      (File(split(3), repository) , new Blob(split(2), repository))
     }).toSeq
   }
 
@@ -27,7 +27,7 @@ case class Commit(date: DateTime, id: String, repository: Git, tree: TreeNode, a
   /**
    * @return the files living in this commit
    */
-  def files: Set[String] = existingFile().map(_._1).toSet
+  def files: Set[File] = existingFile().map(_._1).toSet
 
   override def hashCode = id.hashCode
 
