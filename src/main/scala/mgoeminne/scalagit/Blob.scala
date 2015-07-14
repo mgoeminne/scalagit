@@ -4,8 +4,6 @@ import scala.sys.process.Process
 
 class Blob(id: String, repository: Git) extends GitObject(id, repository)
 {
-
-
   /**
    * @return A list of all files that have been associated to the blob.
    */
