@@ -23,6 +23,20 @@ case class Git(directory: java.io.File)
    def blobs: Set[Blob] = allFiles.map(_._2).toSet
 
    /**
+    * @return All the nodes in the repositories
+    */
+   def tree_nodes: Set[TreeNode] =
+   {
+      val p1 = Process(Seq("git", "rev-list", "--objects", "--all"), directory)
+      val p2 = p1 #| Process(Seq("git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(rest)"), directory)
+      val p3 = p2 #| Process(Seq("grep", "^[^ ]* tree"))
+
+      p3.lineStream.map(l => {
+         TreeNode(l.split(' ')(0), this)
+      }).toSet
+   }
+
+   /**
     * @return All the blobs involved in the Git repository. If a file is involved many times, it will be retrieved a single time.
     */
    def files: Set[File] = allFiles.map(_._1).toSet
@@ -89,6 +103,14 @@ case class Git(directory: java.io.File)
             new LightweightTag(name, Commit(lineValue(lines.head), this), this)
          }
       })
+   }
+
+   override def toString(): String =
+   {
+      if(directory.getName == ".git")
+         directory.getParentFile.getName
+      else
+         directory.getName.stripSuffix(".git")
    }
 }
 
