@@ -116,13 +116,13 @@ case class Git(directory: java.io.File)
 
 object Git
 {
-   val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss Z")
+   val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
 
    def processCommitLine(line: String, repository: Git): Commit =
    {
       val split = line.split(',')
       val id = split(0)
-      val date = formatter.parseDateTime(split(1))
+      val date = formatter.parseDateTime(split(1).take(19))
       val tree = TreeNode(split(2), repository)
       val author = if (split.size >= 4) Some(split(3))
       else None

@@ -7,6 +7,6 @@ import mgoeminne.scalagit.{Commit, Git, Blob}
  */
 abstract class BlobVisitor[T, V] extends Visitor[Blob, T, V]
 {
-  override def generator(repo: Git) = repo.blobs.toSeq
+  override def elements(repo: Git) = repo.blobs.toSeq
   override def associator(commit: Commit) = commit.blobs.toSeq
 }
