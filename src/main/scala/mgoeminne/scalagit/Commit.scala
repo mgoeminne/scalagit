@@ -30,11 +30,13 @@ case class Commit(date: LocalDateTime,
    def blobs: Set[Blob] = existingFile.map(_._2).toSet
 
    /**
-    * @return The ids of each parent of the commit.
+    * @return The commit parents.
     */
    def parents: Seq[Commit] = {
-      val ids = Process(Seq("git", "show", "--", id, "-s", "--format=%P"), repository.directory).lineStream.head.trim.split(' ')
-      ids.map(i => Commit.apply(i, repository))
+      println(id)
+      val ids = Process(Seq("git", "log", "--pretty=%P", "-n", "1", id), repository.directory).lineStream
+      ids.filterNot(_.isEmpty)
+         .map(i => Commit.apply(i, repository))
    }
 
    /**
@@ -63,7 +65,7 @@ object Commit
    def apply(id: String, repository: Git): Commit =
    {
       val data = Process(Seq("git", "show", id, "-s", "--format=%ci,%T,%ae,%ce"), repository.directory).lineStream.head.split(',')
-      val date = LocalDateTime.parse(data(0), Git.formatter)
+      val date = LocalDateTime.parse(data(0).substring(0,19), Git.formatter)
       val tree = new TreeNode(data(1), repository)
       val author = if(data.length>2) Some(data(2).trim) else None
       val committer = if(data.length>3) Some(data(3).trim) else None

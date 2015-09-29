@@ -1,0 +1,24 @@
+package mgoeminne.scalagit.test
+
+import java.io.File
+
+import mgoeminne.scalagit.Git
+import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.Matchers._
+
+class CommitTest extends FlatSpec with Matchers
+{
+   val classLoader = getClass().getClassLoader();
+   val file = new File(classLoader.getResource("scalagit.git").getFile());
+   val repository = Git(file)
+
+   val parents: Seq[Int] = repository.commits map (c => c.parents.size)
+
+   "Any commit" should "have at most 2 parents" in {
+      all (parents) should be <= 2
+   }
+
+   "exactly 1 commit" should "have no parents" in {
+      exactly(1, parents) shouldBe 0
+   }
+}
