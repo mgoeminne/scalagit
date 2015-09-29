@@ -4,7 +4,6 @@ import java.io.File
 
 import mgoeminne.scalagit.Git
 import org.scalatest.{Matchers, FlatSpec}
-import org.scalatest.Matchers._
 
 class CommitTest extends FlatSpec with Matchers
 {
