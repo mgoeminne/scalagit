@@ -33,7 +33,6 @@ case class Commit(date: LocalDateTime,
     * @return The commit parents.
     */
    def parents: Seq[Commit] = {
-      println(id)
       val ids = Process(Seq("git", "log", "--pretty=%P", "-n", "1", id), repository.directory).lineStream
       ids.filterNot(_.isEmpty)
          .map(i => Commit.apply(i, repository))
