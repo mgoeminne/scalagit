@@ -15,7 +15,7 @@ case class File(name: String, repository: Git)
     * @return for each commit in which the file exists, a tuple (_commit_, _blob_), where _commit_ is the commit
     *         containing the file, and _blob_ is the blob associated to this file for the considered commit.
     */
-   def commits: Set[(Commit,Blob)] = {
+   def commits: Stream[(Commit,Blob)] = {
       repository.commits.map(commit => {
          (commit, commit.existingFile().filter(_._1 equals this))
       }).filterNot(entry => entry._2.isEmpty)

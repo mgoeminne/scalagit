@@ -1,0 +1,19 @@
+0000000000000000000000000000000000000000 fdc20dd45128c3a7870fe0f95d6e74d257cdc78c mgoeminne <mgoeminne@gmail.com> 1429955049 +0200	clone: from https://mgoeminne@github.com/mgoeminne/scalagit.git
+fdc20dd45128c3a7870fe0f95d6e74d257cdc78c dd3917927f37dd90516283d3bc7954f171cde978 mgoeminne <mgoeminne@gmail.com> 1429955481 +0200	commit: Initial commit.
+dd3917927f37dd90516283d3bc7954f171cde978 0caab005ed4fa86adccab09b47f3ab644d2febeb mgoeminne <mgoeminne@gmail.com> 1429955545 +0200	commit: Fix imports
+0caab005ed4fa86adccab09b47f3ab644d2febeb 95938267d9da37e2d0ed999ba785d04d5f3c6e91 mgoeminne <mgoeminne@gmail.com> 1429955672 +0200	commit: Fix imports
+95938267d9da37e2d0ed999ba785d04d5f3c6e91 0f9d3042712240123b8406161eed9a57cca55812 mgoeminne <mgoeminne@gmail.com> 1429960385 +0200	commit: Introduce the notion of branch.
+0f9d3042712240123b8406161eed9a57cca55812 b40390722978afffc8ef4e7ac1e81b53c2c13b05 mgoeminne <mgoeminne@gmail.com> 1429960434 +0200	commit: Simplifies the package name.
+b40390722978afffc8ef4e7ac1e81b53c2c13b05 b5eaae9e8923e823d707cd40e128a56add06ade8 mgoeminne <mgoeminne@gmail.com> 1430048484 +0200	commit: Refactoring of function for transforming a line into a commit.
+b5eaae9e8923e823d707cd40e128a56add06ade8 73a5bf0b6770bf45708528b49a7536aca52c59fe mgoeminne <mgoeminne@gmail.com> 1430294064 +0200	commit: Rename Tree into TreeNode
+73a5bf0b6770bf45708528b49a7536aca52c59fe 41b4a3ca88effe03541667504a86d6369be782e9 mgoeminne <mgoeminne@gmail.com> 1430301067 +0200	commit: Add the ability to recursively explore a tree node, and to retrieve all the blobs associated to a tree node.
+41b4a3ca88effe03541667504a86d6369be782e9 c6d89c755956f8277a450251528462847762b498 mgoeminne <mgoeminne@gmail.com> 1430309960 +0200	commit: - Introduce the notion of Git object. A blob is an object.
+c6d89c755956f8277a450251528462847762b498 9f6ccf58ba14c0a88595dc661ef6ae0d4567d338 mgoeminne <mgoeminne@gmail.com> 1430393182 +0200	commit: Improve the performance of Git.findBlobs, by only asking for the blobs that relate to the specified file.
+9f6ccf58ba14c0a88595dc661ef6ae0d4567d338 af89195847d6a54ced8350b6234f89c89801d010 mgoeminne <mgoeminne@gmail.com> 1431000792 +0200	commit: Support tags as first class elements.
+af89195847d6a54ced8350b6234f89c89801d010 da169447f8480d853d14628830d1c1bf3e949d89 mgoeminne <mgoeminne@gmail.com> 1431358646 +0200	commit: Previous implementation of Git.findBlobs was faster, but also failed from time to time, apparently due to a lack of test in the git -rev-list with file name parameter.
+da169447f8480d853d14628830d1c1bf3e949d89 04b41f3291f6f0637b8096047f736f904f8575ca mgoeminne <mgoeminne@gmail.com> 1431370231 +0200	commit: Introduces the notion of file.
+04b41f3291f6f0637b8096047f736f904f8575ca 5eae6c88d206c48e6d4fb562761365c553eb7ee5 mgoeminne <mgoeminne@gmail.com> 1433407684 +0200	commit: Transform file name from string to File
+5eae6c88d206c48e6d4fb562761365c553eb7ee5 17a2aa693ca74989b5ed9ec61577852f51f9579f mgoeminne <mgoeminne@gmail.com> 1433407693 +0200	commit: Improved documentation
+17a2aa693ca74989b5ed9ec61577852f51f9579f fae80bad458236fc9146dcf5eb68d7bd0bf3e2ee mgoeminne <mgoeminne@gmail.com> 1436881833 +0200	commit: File has now a method that retrieves all the (commit,blob) associated to the file.
+fae80bad458236fc9146dcf5eb68d7bd0bf3e2ee 207df90dae2c691fb0a63c908f8d24d8042b9174 mgoeminne <mgoeminne@gmail.com> 1436881883 +0200	commit: - Git repositories can now represent their tree nodes.
+207df90dae2c691fb0a63c908f8d24d8042b9174 8a633a04bfab41e06ff46d49bb5ccf58dea66fde mgoeminne <mgoeminne@gmail.com> 1437768977 +0200	commit: More robust date parsing

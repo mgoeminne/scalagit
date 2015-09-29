@@ -1,11 +1,11 @@
 package mgoeminne.scalagit
 
-import org.joda.time.DateTime
+import org.joda.time.{LocalDateTime, DateTime}
 import org.joda.time.format.DateTimeFormat
 
 import scala.sys.process.Process
 
-case class Commit(date: DateTime,
+case class Commit(date: LocalDateTime,
                   id: String,
                   repository: Git,
                   tree: TreeNode,
@@ -63,7 +63,7 @@ object Commit
    def apply(id: String, repository: Git): Commit =
    {
       val data = Process(Seq("git", "show", id, "-s", "--format=%ci,%T,%ae,%ce"), repository.directory).lineStream.head.split(',')
-      val date = Git.formatter.parseDateTime(data(0))
+      val date = LocalDateTime.parse(data(0), Git.formatter)
       val tree = new TreeNode(data(1), repository)
       val author = if(data.length>2) Some(data(2).trim) else None
       val committer = if(data.length>3) Some(data(3).trim) else None

@@ -2,18 +2,22 @@ package mgoeminne.scalagit
 
 import mgoeminne.scalagit.tag.{AnnotatedTag, LightweightTag, Tag}
 import org.apache.commons.io.FileUtils
+import org.joda.time.LocalDateTime
 import org.joda.time.format.DateTimeFormat
 
 import scala.sys.process.{Process, _}
 
 case class Git(directory: java.io.File)
 {
-   def commits: Set[Commit] =
+   /**
+    * @return All the commits present in the repository,
+    *         ordered by decreasing order of time (from the most recent, to the first one)
+    */
+   def commits: Stream[Commit] =
    {
       Process(Seq("git", "log", "--all", "--format=%H,%ci,%T,%ae"), directory)
          .lineStream
          .map(Git.processCommitLine(_, this))
-         .toSet
    }
 
    /**
@@ -25,7 +29,7 @@ case class Git(directory: java.io.File)
    /**
     * @return All the nodes in the repositories
     */
-   def tree_nodes: Set[TreeNode] =
+   def tree_nodes: Stream[TreeNode] =
    {
       val p1 = Process(Seq("git", "rev-list", "--objects", "--all"), directory)
       val p2 = p1 #| Process(Seq("git", "cat-file", "--batch-check=%(objectname) %(objecttype) %(rest)"), directory)
@@ -33,7 +37,7 @@ case class Git(directory: java.io.File)
 
       p3.lineStream.map(l => {
          TreeNode(l.split(' ')(0), this)
-      }).toSet
+      })
    }
 
    /**
@@ -116,13 +120,13 @@ case class Git(directory: java.io.File)
 
 object Git
 {
-   val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+   val formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss").withZoneUTC()
 
    def processCommitLine(line: String, repository: Git): Commit =
    {
       val split = line.split(',')
       val id = split(0)
-      val date = formatter.parseDateTime(split(1).take(19))
+      val date = LocalDateTime.parse(split(1).take(19), formatter)
       val tree = TreeNode(split(2), repository)
       val author = if (split.size >= 4) Some(split(3))
       else None
