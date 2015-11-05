@@ -54,6 +54,11 @@ case class Commit(date: LocalDateTime,
       }
    }
 
+   /**
+    * @return the diff associated to the commit
+    */
+   def diff: Stream[String] = Process(Seq("git", "log", "-p", id), repository.directory).lineStream
+
    override def compare(that: Commit): Int = this.date.compareTo(that.date)
 
    override def toString = "Commit(" + id + ")"

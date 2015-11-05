@@ -20,4 +20,8 @@ class CommitTest extends FlatSpec with Matchers
    "exactly 1 commit" should "have no parents" in {
       exactly(1, parents) shouldBe 0
    }
+
+   "diff associated to the last commit" should "have the right length" in {
+      repository.commits.head.diff.size should equal (3162)
+   }
 }
