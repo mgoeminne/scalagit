@@ -14,7 +14,7 @@ $ cd scalagit
 $ sbt package
 ```
 
-# Get it started
+# Getting started
 
 This library can be used for querying a local Git repository. Currently, only read operations are allowed as scala-git 
 is mainly used for analysis purpose. 
@@ -27,7 +27,7 @@ in which case the directory containing the .git directory must be used. Bare rep
 the X.git directory itself.
  
 ```scala
-val repository = new Git(new File("/foo/bar/repos.git")
+val repository = new Git(new File("/foo/bar/repos.git"))
 ```
 
 Once such an object has been create, several methods can be used to list the commits, files and contributors involved in
@@ -49,7 +49,7 @@ treenodes, either blobs. The blobs are elements representing the actual content 
 
 The ancestors of the considered commit (if any), can be obtained by successively invoking the parents methods:
 
-```scal
+```scala
 val commit = repository.commit.head
 val is_merge_commit = commit.parents.size > 1
 ```
