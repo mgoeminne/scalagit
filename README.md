@@ -30,7 +30,7 @@ the X.git directory itself.
 val repository = new Git(new File("/foo/bar/repos.git"))
 ```
 
-Once such an object has been create, several methods can be used to list the commits, files and contributors involved in
+Once such an object has been created, several methods can be used to list the commits, files and contributors involved in
 the repository.
 
 ```scala
@@ -45,7 +45,7 @@ val committers = repository.commits.map(_.author).flatten
 
 A commit object represents a commit and contains the most common values associated to it. In addition, the content associated
 to the commit can be obtained by invoking *Commit::tree*. The retrieved element is a tree, the nodes of which being either 
-treenodes, either blobs. The blobs are elements representing the actual content of files existing in the considered commit.
+treenodes, or blobs. The blobs are elements representing the actual content of files existing in the considered commit.
 
 The ancestors of the considered commit (if any), can be obtained by successively invoking the parents methods:
 
@@ -54,7 +54,7 @@ val commit = repository.commit.head
 val is_merge_commit = commit.parents.size > 1
 ```
 
-The list of all files associated to acommit, as well the blobs representing the content of these files, can also be directly
+The list of all files associated to a commit, as well the blobs representing the content of these files, can also be directly
  accessed:
  
 ```scala
@@ -64,8 +64,7 @@ val files = commit.files
 val blobs = commit.blobs
 ```
 
-If the content stored in a blob is textual, its value can be retrieved as a character string that contains he potential 
-new line characters.
+If the content stored in a blob is textual, its value can be retrieved as a character string.
 
 ```scala
 val content = blob.lines 
@@ -93,7 +92,7 @@ results for presenting them in a format that facilitates further manipulations. 
 on the version of Git you installed on your computer (the Git API sometimes subtly changes over time). 
 
 It also means that Scala-git only exposes a subset of all the features provided by Git. In particular, no write operations 
-are possible currently, and read operation mainly aims to provide a clear representation of a Git repository. Operations 
+are possible currently, and read operations mainly aim to provide a clear representation of a Git repository. Operations
 are added when I need them, so feel free to propose a patch for supporting your own required features.
 
 Most operations retrieve stream of data, which allows you to only wait until Git retrieves the information you are interested in. 
